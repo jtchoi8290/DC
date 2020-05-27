@@ -1,0 +1,472 @@
+library(scales)
+install.packages('plotrix')
+library(plotrix)
+install.packages("wesanderson")
+library(wesanderson)
+install.packages("Hmisc")
+library(Hmisc)
+library(ggplot2)
+hist(tt$Age, col = "Orange")
+qplot(ER, data=tt, geom="histogram",
+      bins=30,fill=factor(RA),facets=.~ RA)
+#Division
+division <- data.frame(tt$RU, tt$`RU name`)
+division <- na.omit(division)
+division
+
+opp <- data.frame(Race.ch, Race.nu)
+#RACE
+tt <- Demographic
+race.factor <- factor(tt$`Race 1`)
+ee<- as.character(race.factor)
+Race.ch <- na.omit(ee)
+
+qq<- as.numeric(race.factor)
+Race.nu<- na.omit(qq)
+
+opp <- data.frame(Race.ch, Race.nu)
+histogram(~Race.nu | factor(Race.ch),data=tv)
+hist(Race.nu, labels = Race.ch)
+#Frequency
+qplot(Race.nu, data=opp, geom ="histogram", bins=30, 
+      fill=factor(Race.ch), xlab = "Race", ylab = "Frequency")+theme_minimal()
+  geom_text(aes(label=..count.., y=..prop..), stat = "count", vjust=-1.4,
+            color="black", size=5)+theme_minimal()
+#Percentage
+Rae <- ggplot(opp,aes(x=Race.nu))+
+  geom_bar(width=.7,aes(fill=Race.ch))+ labs(x= "Age", y= "Percentage")
+Rae +guides(fill=guide_legend(title="Race"))+
+  geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+            stat = "count",vjust=0.1, color="black", size=4)
+
+#Visualization and based_size function
+install.packages("plotly")
+library(plotly)
+qplot(Race.nu, Race.ch, data=opp, geom="jitter", xlab = "Race", ylab = "Frequency")+theme_grey(base_size=9)+
+  geom_text(aes(label=..count.., y=..prop..),
+  stat = "count", vjust=-2, color="black", size=3)
+
+tt <- Demographic
+qplot(Age,data=tt,geom="density")
+qplot(Age,data=tt,geom="histogram",
+      bins=30,fill=factor(Gender))
+
+ggplot(data=tt, aes(x=RA, y=ER))+geom_bar(stat = "identity", fill="steelblue")+
+  geom_text(aes(label=..count.., y=..prop..), stat = "count", vjust=0.7, color="white", size=5)+theme_minimal()
+  
+gf <-ggplot(tt, aes(x=Gender), color = "chocolate") +geom_bar()
+gf
+gf+ coord_flip() + geom_bar(position="stack")
+gf + geom_point() + labs(colour="cylinders",shape="cylinders")
+#Pie Chart
+ggplot(tt, aes(x = RA, y=ER, fill=factor(RA)))+geom_bar(width = 1, stat="identity")+coord_polar(theta = "y")
+
+#Sexual Orientation
+tt <- Demographic
+Sexual.factor <- factor(tt$`Sexual Orientation`)
+Sexual.factor
+
+SexualOrientation <- as.character(Sexual.factor)
+Sexual.Orientation <- na.omit(SexualOrientation)
+
+SexualO <- as.numeric(Sexual.factor)
+sexualorientation <- na.omit(SexualO)
+
+
+
+qplot(SexualO,data=tt,geom="density",
+      bins=30,fill=factor(SexualOrientation), xlab = "Density")
+pie(BOD$demand,labels=BOD$Time)
+pie(SexualOrientation, labels = SexualO)
+dotchart(SexualO,labels=sexualOrientation)
+hist(SexualO)
+ggplot(opp,aes(x=Race.nu))+
+  geom_bar(width=.7,aes(fill=Race.ch))+ labs(x= "Age", y= "Percentage")
+#Graph
+tt <- Demographic
+uu <- data.frame(Sexual.Orientation,Sexuall)
+ggplot(uu, aes(x=sexualorientation))+ xlab("Sexual Orientation") + ylab("Frequency")+
+  geom_bar(width=.7,aes(fill=Sexual.Orientation))+
+  theme_minimal()+geom_text(aes(label=..count.., y=..prop..), 
+                            stat = "count", vjust=1.1, color="black", size=6)+
+
+ggplot(uu, aes(x=Sexual.Orientation, y=sexualorientation, fill=factor(Sexuall)))+
+      geom_bar(width = 2, stat="identity")+coord_polar(theta = "y")
+
+#Visualization
+qplot(Sexual.Orientation,sexualorientation,geom="jitter", xlab = "Sexual Orientation")+
+  geom_text(aes(label=..count.., y=..prop..),
+            stat = "count", vjust=6, color="black", size=5)
+#Frequency
+qplot(sexualorientation,data=uu ,geom="histogram", xlab = "Sexual Orientation",
+      bins=30,fill=factor(Sexual))+geom_text(aes(label=..count.., y=..prop..), 
+                                              stat = "count", vjust=-1.4, color="black", size=5)+theme_minimal()
+#Percent
+wr <- ggplot(uu,aes(x=Sexual))+
+  geom_bar(width=.7,aes(fill=sexualorientation))+ labs(x= "Sexual Orientation", y= "Percentage")
+wr +guides(fill=guide_legend(title="Sexual Orientation"))+
+  geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+            stat = "count",vjust=-0.5, color="black", size=5)
+#Gender
+Gender.factor <- factor(tt$Gender)
+Gender.factor
+
+Gender.ch<- as.character(Gender.factor)
+Gender.character <- na.omit(Gender.ch)
+
+Gender.n <- as.numeric(Gender.factor)
+Gender.numeric <- na.omit(Gender.n)
+
+ss <- data.frame(Gender.character,Gender.numeric)
+
+histogram(~Gender.numeric | factor(division$tt..RU.name.))
+qplot(Gender.numeric, data=ss, geom ="dotplot", bins=10)
+aa <- ggplot(ss, aes(x=Gender.character))+geom_bar(width=0.4, col = "royalblue", fill="violet")
+aa + guides(fill=guide_legend(title="Sexual Orientation"))+
+  geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+            stat = "count",vjust=-0.5, color="black", size=5)
+aa+geom_text(aes(label=..count.., y=..prop..), 
+                            stat = "count", vjust=-0.5, color="black", size=5)+theme_minimal()
+
+library(gmodels)
+CrossTable()
+matrix(division)
+matrix(ss)
+hist(ss$Gender.numeric, division$tt.RU)
+
+#Gender Identification
+GenderI.factor <- factor(tt$`Gender Identification`)
+GenderI.factor
+
+ee<- as.character(GenderI.factor)
+Gender.characteristic <- na.omit(ee)
+GenderI.ch
+qq<- as.numeric(GenderI.factor)
+Gender<- na.omit(qq)
+GenderI.nu
+tv <- data.frame(Gender.characteristic, Gender)
+histogram(~GenderI.nu | factor(GenderI.ch),data=tv)
+hist(GenderI.nu, labels = GenderI.ch)
+qplot(Gender, data=tv, geom ="dotplot", 
+      bins=30, binwidth=0.1,fill=factor(Gender.characteristic), xlab = "Density")+
+  guides(fill=guide_legend(title="Gender.Characteristic"))
+
+qplot(Gender, data=tv ,geom="histogram",
+      bins=30,fill=factor(Gender.characteristic))+geom_text(aes(label=..count.., y=..prop..), 
+                                              stat = "count", vjust=1.1, color="black", size=5)+
+  guides(fill=guide_legend(title="Gender.Characteristic"))
+qt + guides(fill=guide_legend(title="Gender.Characteristic"))+
+  geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+            stat = "count",vjust=-0.5, color="black", size=5)
+#Education Level
+LG <- Demographic
+aaa <- LG$Education
+table(LG$Education)
+summary(aaa)
+
+ED.factor <- factor(aaa)
+ED.factor
+
+ee<- as.character(ED.factor)
+ee
+ED.ch <- na.omit(ee)
+
+qq<- as.numeric(ED.factor)
+ED.nu<- na.omit(qq)
+ED.ch
+ED.nu
+tv <- data.frame(ED.ch, ED.nu)
+tv
+tv[tv == "19"] <- "54"
+tv[tv == "18"] <- "53"
+tv[tv == "5"] <- "52"
+tv[tv == "9"] <- "51"
+tv[tv == "10"] <- "50"
+tv[tv == "11"] <- "49"
+tv[tv == "12"] <- "48"
+tv[tv == "13"] <- "47"
+tv[tv == "14"] <- "46"
+tv[tv == "15"] <- "45"
+tv[tv == "16"] <- "44"
+tv[tv == "6"] <- "43"
+tv[tv == "7"] <- "42"
+tv[tv == "8"] <- "41"
+tv[tv == "22"] <- "40"
+tv[tv == "23"] <- "39"
+tv[tv == "24"] <- "38"
+tv[tv == "1"] <- "37"
+tv[tv == "2"] <- "36"
+tv[tv == "3"] <- "35"
+tv[tv == "4"] <- "34"
+tv[tv == "17"] <- "33"
+tv[tv == "20"] <- "32"
+tv[tv == "21"] <- "31"
+install.packages("tidyverse")
+library(tidyverse)
+arra <- tv %>% arrange(tv$ED.nu)
+library("dplyr")
+
+histogram(~ED.nu | factor(ED.ch),data=tv)
+hist(ED.nu, labels = ED.ch)
+qplot(ED.nu, data=tv, geom ="density", bins=30, fill=factor(ED.ch), xlab = "Education")
+qplot(ED.nu, data=tv ,geom="density",
+      bins=30,fill=factor(ED.ch))+geom_text(aes(label=..count.., y=..prop..), 
+                                                 stat = "count", vjust=-1.4, color="black", size=2)
+qplot(ED.nu,ED.ch,data=tv,geom="jitter", xlab = "Education")
+qplot(ED.nu,ED.ch,data=)
+#Frequency
+ggplot(tv, aes(x=ED.nu))+ geom_bar(width=.7,aes(fill=ED.ch))+labs(x= "Education", y= "Education")+
+  coord_flip()+geom_text(aes(label=..count.., y=..prop..),
+            stat = "count", vjust=0.3,hjust = 0.5, color="black", size=4.2)
+#Percentage
+ggplot(tv, aes(x=ED.nu))+ geom_bar(width=.7,aes(fill=ED.ch))+labs(x= "Education", y= "Education")+
+  coord_flip()+geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+                        stat = "count",vjust=0.3, color="black", size=4.1)
+
+ggplot(tv, aes(x=tv$ED.nu))+geom_bar(aes(y=table(ED.nu)/sum(table(ED.nu))))+scale_y_continuous(labels = scales::percent)+
+ coord_flip()+geom_text(aes(label=..count.., y=..prop..),
+                      stat = "count", vjust=0.3, color="black", size=3)
+yy <- (table(ED.nu)/sum(table(ED.nu)))
+p4 <- ggplot()+geom_bar(aes(x=ED.ch, y=ED.nu, fill=ED.ch), data=tv, stat = "identity")+ coord_flip()
+p4+geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+             stat = "count",vjust=0.3, hjust = 5, color="black", size=6)
+
+#Marital Status
+EEE <- tt$`Marital Status`
+M.factor <- factor(EEE)
+M.factor
+
+ee<- as.character(M.factor)
+ee
+M.ch <- na.omit(ee)
+
+qq<- as.numeric(M.factor)
+M.nu<- na.omit(qq)
+ww <- data.frame(M.ch, M.nu)
+
+histogram(~M.nu | factor(M.ch),data=tv)
+hist(M.nu, labels = M.ch)
+qplot(M.nu,M.ch,data=ww,geom="jitter", xlab = "Marital Status")+
+  geom_text(aes(label=..count.., y=..prop..),
+              stat = "count", vjust=-0.5, color="black", size=5)
+
+rer <- ggplot(ww,aes(x=M.nu))+
+  geom_bar(width=.7,aes(fill=M.ch))+ labs(x= "Marital Status", y= "Marital Status")+
+  geom_text(aes(label=..count.., y=..prop..), 
+                         stat = "count",vjust=1.3, color="black", size=5)
+
+rer+geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+              stat = "count",vjust=0.3, color="black", size=6)
+
+qplot(M.nu, data=ww, geom ="dotplot", 
+      bins=30, fill=factor(M.ch), xlab = "Density")
+cloud(M.nu~ED.nu+GenderI.nu)
+
+#Age
+LG <- Demographic
+TA <-LG$Age
+length(TA)
+TA
+Gender <- LG$Gender
+hist(TA)
+plot(TA)
+qplot(LG$Age,LG$Gender,geom="jitter", xlab = "Marital Status")
+ggplot(LG,aes(x=TA))+
+  geom_bar(width=.7,aes(fill=))+ labs(x= "Age", y= "Frequency")
+
+DD <- melt(TA, variable.name = "Frequency", value.name = "Age", na.rm = TRUE) 
+hist(DD)
+library(data.table)
+setDT(DD)[Age <1, agegroup := "0-1"]
+DD[Age >0 & Age <10, agegroup := "1-9"]
+DD[Age >4 & Age <10, agegroup := "5-9"]
+DD[Age >9 & Age <15, agegroup := "10-14"]
+DD[Age >14 & Age <20, agegroup := "15-19"]
+DD[Age >19 & Age <25, agegroup := "20-24"]
+DD[Age >24 & Age <30, agegroup := "25-29"]
+DD[Age >29 & Age <35, agegroup := "30-34"]
+DD[Age >34 & Age <40, agegroup := "35-39"]
+DD[Age >39 & Age <45, agegroup := "40-44"]
+DD[Age >44 & Age <50, agegroup := "45-49"]
+DD[Age >49 & Age <55, agegroup := "50-54"]
+DD[Age >54 & Age <60, agegroup := "55-59"]
+DD[Age >59 & Age <65, agegroup := "60-64"]
+DD[Age >64 & Age <70, agegroup := "65-69"]
+DD[Age >69 & Age <75, agegroup := "70-74"]
+DD[Age >74 & Age <80, agegroup := "75-79"]
+DD[Age >79 & Age <85, agegroup := "80-84"]
+DD[Age >84, agegroup := "85+"]
+DD <- na.omit(DD)
+hist(DD)
+str(DD)
+summary(DD)
+Agee <- DD$Age
+Agee
+Agg <- DD$agegroup
+Agg
+ll <- data.frame(Agee, Agg)
+ll
+plot(Agee,Agg,data=ll,geom="jitter", xlab = "Education")
+
+histogram(~Agee | factor(Agg),data=tv, xlab="Age")
+
+qplot(Agee,Agg,data=ll,geom="jitter", xlab = "Age")
+
+#Percentage
+ff <- ggplot(ll,aes(x=Agee))+
+  geom_bar(width=.7,aes(fill=Agg))+ labs(x= "Age", y= "Frequency")
+fff <- ff +guides(fill=guide_legend(title="Age"))+
+      geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+                                                            stat = "count",vjust=0.3, color="black", size=2.6)
+fff
+#Frequency
+ggplot(ll, aes(x=Agee))+ geom_bar(width=.7,aes(fill=Agg))+labs(x= "Age", y= "Frequency")
+  geom_text(aes(label=..count.., y=..prop..),
+                         stat = "count", vjust=0.3,hjust = -0.8, color="black", size=2.8)
+count(DD, "agegroup")
+DD
+gap <-qplot(Agee, data=ll, geom ="dotplot", 
+      binwidth=0.8, fill=factor(Agg), xlab = "Density")+labs(x= "Age", y= "Density")
+gap <- gap +guides(fill=guide_legend(title="Age"))
+gap
+
+
+#Diagnose
+were <- Book2
+tyu <- were$`Code Description`
+DD.factor <- factor(tyu)
+DD.factor
+
+mm<- as.character(DD.factor)
+mm
+DI.ch <- na.omit(mm)
+
+QQQ<- as.numeric(DD.factor)
+DI.nu<- na.omit(QQQ)
+DI.nu
+uuu <- data.frame(DI.ch, DI.nu)
+str (uuu)
+histogram(~D.nu | factor(D.ch),data=uuu, xlab="Age")
+qplot(DI.nu,data=uuu,geom="dotplot", binwidth=0.8, fill=factor(D.ch))
+summary(uuu)
+ggplot(uuu, aes(x=DI.ch, y=DI.nu))+ geom_bar(stat = "identity", fill="steelblue")
+geom_text(aes(label=..count.., y=..prop..),
+          stat = "count", vjust=0.3,hjust = -0.8, color="black", size=2.8)
+histogram(DI.nu)
+qplot(D.ch,data=uuu,geom="density")
+
+
+#Number
+t <- Number
+aa <- subset(t, n ==1)
+aa
+aa.factor <- factor(rr)
+aa.factor
+
+mm<- as.character(aa.factor)
+mm
+aa.ch <- na.omit(mm)
+
+QQQ<- as.numeric(aa.factor)
+aa.nu<- na.omit(QQQ)
+aa.nu
+uuu <- data.frame(aa.ch, aa.nu)
+uuu
+install.packages("gmodels")
+library(gmodels)
+CrossTable(uuu$aa.nu)
+CrossTable(uuu$aa.ch)
+uuu
+
+m <- cor.test(aa$`Total Admission Service Hours`, aa$`Length of Stay (DCI)`)
+m
+
+
+pp <- Request_for_Services_Report
+RF.factor <- factor(pp$`Referral Source/Facility`)
+ee<- as.character(RF.factor)
+RF.ch <- na.omit(ee)
+  
+qq<- as.numeric(RF.factor)
+RF.nu<- na.omit(qq)
+  
+WE <- data.frame(RF.ch, RF.nu)
+histogram(~RF.nu | factor(RF.ch),data=WE)
+hist(RF.nu, labels = RF.ch)
+summary(WE)
+qplot(RF.nu, data=WE, geom ="histogram", bins=30, fill=factor(RF.ch), xlab = "Race", ylab = "Frequency")+
+theme_minimal()+geom_text(aes(label=..count.., y=..prop..), stat = "count", vjust=-1.4,
+          color="black", size=1)+theme_minimal()+coord_flip()
+
+rr <- Access_to_Services
+tt <- Access_to_Services$`Referral Source/Facility`
+tt.factor <- factor(tt)
+tt.ch<- as.character(tt.factor)
+
+tt.nu<- as.numeric(tt.factor)
+
+opp <- data.frame(tt.ch,tt.nu)
+opp
+
+er <- rr$`Insurance information`
+is.factor <- factor(er)
+is.ch<- as.character(is.factor)
+
+is.nu<- as.numeric(is.factor)
+ty <- data.frame(is.ch,is.nu)
+
+
+d <- count(ty, is.ch)
+d
+subset(d, n >= 20)
+table(d)
+#Count each value of Referral Source/Facility and Insurance Information
+summary(as.factor(opp$tt.ch))
+summary(as.factor(ty$is.nu))
+summary(as.factor(rr$Department))
+tyui <- as.numeric(rr$Department)
+tyui <- na.omit(tyui)
+
+
+#Network Status
+NS.factor <- factor(rr$`Network status`)
+NetworkStatus<- as.character(NS.factor)
+NS.nu<- as.numeric(NS.factor)
+NSS <- data.frame(NetworkStatus,NS.nu)
+NSS <- na.omit(NSS)
+NSS
+qplot(NS.nu, data=NSS, geom ="histogram", bins=30, fill=factor(NetworkStatus), xlab = "Race", ylab = "Frequency")+
+  theme_minimal()
+
+#Transportation
+Tran.factor <- factor(rr$Transportation)
+ttr.ch<- as.character(Tran.factor, as.integer)
+ttr.nu<- as.numeric(Tran.factor)
+oppr <- data.frame(ttr.ch,ttr.nu)
+oppr <- na.omit(oppr)
+oppr
+qplot(ttr.nu, data=oppr, geom ="histogram", bins=30, fill=factor(ttr.ch), xlab = "Race", ylab = "Frequency")+
+  theme_minimal()+scale_x_continuous("x", limits = c(0,3), breaks = seq(0,3))
+
+aa <- ggplot(oppr, aes(x=ttr.ch))+geom_bar(width=0.4, col = "royalblue", fill="violet")+theme_minimal()+
+  geom_text(aes(label=..count.., y=..prop..), stat = "count", vjust=0.1, color="white", size=5)
+aa
+aa + guides(fill=guide_legend(title="Sexual Orientation"))+
+  geom_text(aes(label=ifelse((..count..)==0,"%",scales::percent((..count../sum(..count..))))),
+            stat = "count",vjust=-0.5, color="black", size=5)
+
+library(ggplot2)
+length(ss)
+install.packages("plyr")
+library(plyr)
+library(dplyr)
+count(ss, 1)
+count(ss, 3)
+
+#table(opp)
+qplot(tt.nu,data=opp,geom="histogram",
+      bins=10,fill=factor(tt.ch))
+plot(opp$tt.ch)
+with(opp, table(tt.nu, tt.ch))
+options(max.print = 10000000)
+histogram(~tt.nu | factor(tt.ch),data=opp)
